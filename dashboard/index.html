@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Haveloc Placement Agent — Control Dashboard</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div class="app-layout">
+    <!-- Sidebar Navigation -->
+    <aside class="sidebar">
+      <div class="brand">
+        <div class="logo-icon">⚡</div>
+        <div>
+          <div class="brand-title">Haveloc Agent</div>
+          <div class="brand-subtitle">SRMIST Placement Portal</div>
+        </div>
+      </div>
+
+      <nav class="nav-menu">
+        <button class="nav-item active" data-tab="applications" id="nav-applications-btn">
+          <span class="nav-icon">📋</span> Applications
+          <span class="nav-counter" id="app-counter">0</span>
+        </button>
+        <button class="nav-item" data-tab="opportunities" id="nav-opportunities-btn">
+          <span class="nav-icon">🎯</span> Opportunities
+          <span class="nav-counter" id="job-counter">0</span>
+        </button>
+        <button class="nav-item" data-tab="profile" id="nav-profile-btn">
+          <span class="nav-icon">👤</span> Profile & Facts
+        </button>
+        <button class="nav-item" data-tab="resumes" id="nav-resumes-btn">
+          <span class="nav-icon">📄</span> Resume Variants
+        </button>
+        <button class="nav-item" data-tab="audit" id="nav-audit-btn">
+          <span class="nav-icon">🛡️</span> Audit Trail
+        </button>
+      </nav>
+
+      <div class="sidebar-student">
+        <div class="student-avatar">SP</div>
+        <div class="student-info">
+          <div class="student-name">SHUBHAM PUTITUNDI</div>
+          <div class="student-id">RA2311028010135</div>
+        </div>
+      </div>
+    </aside>
+
+    <!-- Main Workspace -->
+    <main class="main-content">
+      <!-- Top Bar -->
+      <header class="topbar">
+        <div class="page-header">
+          <h1 id="page-title">Placement Applications</h1>
+          <p id="page-subtitle">Real-time orchestration pipeline with deterministic 9-point verification gates</p>
+        </div>
+        <div class="topbar-actions">
+          <div class="system-badge"><span class="pulse-dot"></span> Core System: Deterministic</div>
+          <button class="btn btn-secondary" id="refresh-btn">⟳ Refresh Data</button>
+          <a href="http://localhost:8080" target="_blank" class="btn btn-primary" id="open-mock-portal-btn">Open Haveloc Portal ↗</a>
+        </div>
+      </header>
+
+      <!-- Content Views -->
+
+      <!-- 1. Applications Tab -->
+      <section id="tab-applications" class="tab-pane active">
+        <div class="stats-grid">
+          <div class="stat-card">
+            <div class="stat-label">Total Applications</div>
+            <div class="stat-value" id="stat-total-apps">0</div>
+            <div class="stat-sub">Across placement cycle</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-label">Verified & Authorized</div>
+            <div class="stat-value text-green" id="stat-verified-apps">0</div>
+            <div class="stat-sub">Passed 9/9 deterministic checks</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-label">Confirmed Submissions</div>
+            <div class="stat-value text-blue" id="stat-completed-apps">0</div>
+            <div class="stat-sub">Officially accepted by Haveloc</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-label">Action Required</div>
+            <div class="stat-value text-amber" id="stat-review-apps">0</div>
+            <div class="stat-sub">Sensitive question confirmation</div>
+          </div>
+        </div>
+
+        <div class="card table-card">
+          <div class="card-header">
+            <h3>Active Application Pipeline</h3>
+            <span class="badge badge-info">Safe Mode Active</span>
+          </div>
+          <div class="table-responsive">
+            <table class="data-table" id="applications-table">
+              <thead>
+                <tr>
+                  <th>Company & Role</th>
+                  <th>Deadline</th>
+                  <th>Selected Resume</th>
+                  <th>Current State</th>
+                  <th>Actions</th>
+                </tr>
+              </thead>
+              <tbody id="applications-tbody">
+                <tr><td colspan="5" class="text-center text-muted py-4">Loading applications...</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+
+      <!-- 2. Opportunities Tab -->
+      <section id="tab-opportunities" class="tab-pane">
+        <div class="section-desc">Detected from Haveloc notices board. Click "Initiate Application" to run eligibility evaluation and draft answers.</div>
+        <div class="cards-grid" id="jobs-cards-grid">
+          <!-- Populated by JS -->
+        </div>
+      </section>
+
+      <!-- 3. Profile & Achievement Bank Tab -->
+      <section id="tab-profile" class="tab-pane">
+        <div class="grid-2-col">
+          <div class="card">
+            <div class="card-header">
+              <h3>Academic Profile & Cutoffs</h3>
+            </div>
+            <div class="profile-details-grid" id="profile-summary">
+              <!-- Populated by JS -->
+            </div>
+          </div>
+
+          <div class="card">
+            <div class="card-header">
+              <h3>Verified Achievement Bank</h3>
+              <span class="badge badge-green">Ground Truth (Zero Hallucination)</span>
+            </div>
+            <div class="achievement-list" id="achievements-container">
+              <!-- Populated by JS -->
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- 4. Resume Variants Tab -->
+      <section id="tab-resumes" class="tab-pane">
+        <div class="section-desc">Registered resume variants evaluated by the rule-based ranking engine based on role tags and skills.</div>
+        <div class="cards-grid" id="resumes-cards-grid">
+          <!-- Populated by JS -->
+        </div>
+      </section>
+
+      <!-- 5. Audit Trail Tab -->
+      <section id="tab-audit" class="tab-pane">
+        <div class="card">
+          <div class="card-header">
+            <h3>Security & Application Audit Trail</h3>
+            <span class="badge badge-indigo">PII & Credential Redaction Active</span>
+          </div>
+          <div class="timeline" id="audit-timeline">
+            <!-- Populated by JS -->
+          </div>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <!-- Verification Inspector Modal -->
+  <div class="modal-backdrop" id="verification-modal">
+    <div class="modal-card">
+      <div class="modal-header">
+        <div>
+          <h3 id="modal-app-title">Pre-Submission Verification Gate (9/9)</h3>
+          <div class="modal-subtitle" id="modal-app-sub">Application Inspection</div>
+        </div>
+        <button class="modal-close" id="modal-close-btn">&times;</button>
+      </div>
+      <div class="modal-body">
+        <div class="hash-box">
+          <div class="hash-label">Cryptographic Integrity Hash (SHA-256):</div>
+          <code id="modal-hash-val">Computing...</code>
+        </div>
+        
+        <h4 class="checks-heading">Deterministic Gate Checklist</h4>
+        <div class="gate-list" id="modal-gate-list">
+          <!-- Check items populated by JS -->
+        </div>
+
+        <div id="modal-review-section" style="display:none; margin-top:1.5rem; background:#1e293b; padding:1rem; border-radius:8px;">
+          <h4 style="margin:0 0 0.5rem 0; color:#fbbf24;">Action Required: Confirm Sensitive Question</h4>
+          <p id="modal-review-q" style="font-size:0.85rem; color:#cbd5e1;"></p>
+          <input type="text" id="modal-review-input" class="form-input" style="width:100%; margin-bottom:0.75rem;" />
+          <button class="btn btn-primary" id="modal-resolve-review-btn">Confirm & Approve</button>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-secondary" id="modal-secondary-btn">Close</button>
+        <button class="btn btn-primary" id="modal-authorize-btn">Authorize Submission</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>

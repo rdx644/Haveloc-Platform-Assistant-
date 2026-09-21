@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Haveloc Placement Assistant — Review & Control</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="sidepanel.css">
+</head>
+<body>
+  <div class="panel-container">
+    <!-- Header -->
+    <header class="panel-header">
+      <div class="header-brand">
+        <span class="logo-lightning">⚡</span>
+        <div>
+          <div class="brand-name">Haveloc Assistant</div>
+          <div class="brand-sub">Local Execution Engine</div>
+        </div>
+      </div>
+      <a href="#" id="setup-link" title="Open Profile Setup" style="color:#58a6ff; font-size:11px; text-decoration:none; margin-left:auto; margin-right:8px; display:none;">⚙ Setup</a>
+      <div id="connection-status" class="status-indicator online">Connected</div>
+    </header>
+
+    <!-- Live Haveloc Portal Status Banner -->
+    <div class="live-portal-banner" id="live-portal-banner">
+      <div class="live-portal-info">
+        <span class="pulse-dot"></span>
+        <span class="live-portal-label">Live Haveloc Portal</span>
+      </div>
+      <span class="badge-subtle" id="portal-live-status">Auto-Sync</span>
+    </div>
+
+    <!-- Quick Live Extract & Instant Apply Action -->
+    <button class="btn btn-live-extract" id="btn-extract-live">
+      ⚡ Extract & Instant Apply (From Live Page)
+    </button>
+
+    <!-- Student Profile Card -->
+    <div class="student-profile-card">
+      <div class="student-main">
+        <div class="student-avatar" id="student-avatar">--</div>
+        <div class="student-text">
+          <div class="student-name">
+            <span id="student-name-display">Loading...</span>
+            <span class="verified-check" title="Verified Placement Account">✓</span>
+          </div>
+          <div class="student-reg" id="student-reg-display">Connecting...</div>
+          <div class="student-dept" id="student-dept-display"></div>
+        </div>
+      </div>
+      <div class="student-stats-row">
+        <div class="stat-pill"><span class="stat-val" id="stat-applied-count">0</span> applied</div>
+        <div class="stat-pill"><span class="stat-val" id="stat-offers-count">0</span> offers</div>
+        <div class="stat-pill highlight"><span class="stat-val" id="stat-cgpa-display">--</span> CGPA</div>
+      </div>
+    </div>
+
+    <!-- Autonomy Mode Switcher -->
+    <div class="section-card">
+      <div class="section-title-row">
+        <span class="section-title">Autonomy Mode</span>
+        <span class="badge-subtle" id="active-mode-label">Mode: CONFIRM</span>
+      </div>
+      <div class="autonomy-selector">
+        <label class="mode-option" id="opt-assist">
+          <input type="radio" name="autonomy_mode" value="ASSIST">
+          <div class="mode-info">
+            <span class="mode-icon">🛡️</span>
+            <div class="mode-text">
+              <div class="mode-name">Assist</div>
+              <div class="mode-desc">Drafts answers; human copies & submits</div>
+            </div>
+          </div>
+        </label>
+        <label class="mode-option active" id="opt-confirm">
+          <input type="radio" name="autonomy_mode" value="CONFIRM" checked>
+          <div class="mode-info">
+            <span class="mode-icon">⚡</span>
+            <div class="mode-text">
+              <div class="mode-name">Confirm (Default)</div>
+              <div class="mode-desc">Auto-fills; human approves 9-point verification</div>
+            </div>
+          </div>
+        </label>
+        <label class="mode-option" id="opt-autonomous">
+          <input type="radio" name="autonomy_mode" value="AUTONOMOUS">
+          <div class="mode-info">
+            <span class="mode-icon">🤖</span>
+            <div class="mode-text">
+              <div class="mode-name">Autonomous</div>
+              <div class="mode-desc">Auto-submits only if 9/9 verification gates pass</div>
+            </div>
+          </div>
+        </label>
+      </div>
+    </div>
+
+    <!-- Active Application Inspection Card -->
+    <div class="section-card" id="active-app-card">
+      <div class="section-title-row">
+        <span class="section-title">Active Application</span>
+        <span class="status-tag tag-drafted" id="app-state-tag">DRAFTED</span>
+      </div>
+
+      <div class="app-summary-box">
+        <div class="app-company" id="app-company-name">LTM</div>
+        <div class="app-role" id="app-job-title">Graduate Engineer Trainee</div>
+        <div class="resume-selection-pill">
+          <span class="resume-icon">📄</span>
+          <span id="app-resume-name">Cloud Computing & AWS Architecture (v2.1)</span>
+        </div>
+        <div id="resume-only-badge" class="badge-resume-only" style="display: none;">
+          <span class="badge-dot">✓</span>
+          <span>Resume-Only Application (No Q&A required)</span>
+        </div>
+      </div>
+
+      <!-- Grounded Answers Review Accordion -->
+      <div class="collapsible-section">
+        <div class="collapsible-header" id="answers-toggle-btn">
+          <span>Inspect Grounded Answers (<span id="answers-count">0</span>)</span>
+          <span class="toggle-arrow" id="answers-arrow">▼</span>
+        </div>
+        <div class="collapsible-content" id="answers-list-container">
+          <div class="empty-hint">Loading answers drafted from verified achievements...</div>
+        </div>
+      </div>
+
+      <!-- 9-Point Verification Checklist -->
+      <div class="checklist-section">
+        <div class="checklist-title">Pre-Submission Verification (9-Point Gate)</div>
+        <div class="gate-items" id="sidepanel-gates-container">
+          <!-- Populated by JS -->
+        </div>
+      </div>
+
+      <!-- DOM Read-Back Status -->
+      <div class="read-back-status-box" id="read-back-container">
+        <div class="rb-title">
+          <span>DOM Read-Back Check:</span>
+          <span class="rb-badge rb-pass" id="rb-status-badge">PASS ✓</span>
+        </div>
+        <div class="rb-desc" id="rb-status-desc">All DOM form values strictly match the canonical facts.</div>
+      </div>
+
+      <!-- Hash Integrity -->
+      <div class="hash-integrity-box">
+        <div class="hash-heading">SHA-256 Application Hash:</div>
+        <code id="sidepanel-hash-code">Not locked yet</code>
+      </div>
+
+      <!-- Action Button -->
+      <div class="action-buttons-group">
+        <button class="btn btn-submit" id="panel-submit-btn">Authorize & Submit</button>
+        <button class="btn btn-secondary" id="panel-refresh-btn">Re-Verify Form</button>
+      </div>
+    </div>
+
+    <!-- Live Placement Feed -->
+    <div class="section-card">
+      <div class="section-title-row">
+        <span class="section-title">Applications Feed</span>
+      </div>
+      <div class="history-list" id="sidepanel-history-list">
+        <div class="empty-hint">Loading application history...</div>
+      </div>
+    </div>
+  </div>
+
+  <script src="sidepanel.js"></script>
+</body>
+</html>

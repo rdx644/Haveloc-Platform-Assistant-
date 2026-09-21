@@ -1,0 +1,48 @@
+{
+  "manifest_version": 3,
+  "name": "Haveloc Placement Application Assistant",
+  "version": "1.0.0",
+  "description": "Deterministic local execution agent for Haveloc placement portal applications with 9-point pre-submission verification.",
+  "icons": {
+    "128": "assets/icon128.png"
+  },
+  "permissions": [
+    "storage",
+    "activeTab",
+    "sidePanel"
+  ],
+  "host_permissions": [
+    "https://placements.haveloc.com/*",
+    "https://api.haveloc-agent.com/*",
+    "*://*.haveloc.com/*",
+    "*://*.hirepro.in/*"
+  ],
+  "side_panel": {
+    "default_path": "sidepanel/sidepanel.html"
+  },
+  "background": {
+    "service_worker": "background/service_worker.js"
+  },
+  "content_scripts": [
+    {
+      "matches": [
+        "https://placements.haveloc.com/*",
+        "*://*.haveloc.com/*",
+        "*://*.hirepro.in/*"
+      ],
+      "js": [
+        "content/captcha_guard.js",
+        "content/haveloc_detector.js",
+        "content/live_page_extractor.js",
+        "content/haveloc_adapter.js",
+        "content/form_filler.js",
+        "content/read_back_validator.js",
+        "content/submission_executor.js"
+      ],
+      "run_at": "document_end"
+    }
+  ],
+  "action": {
+    "default_title": "Haveloc Placement Assistant"
+  }
+}
